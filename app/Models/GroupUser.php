@@ -5,6 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
+/**
+ * Le modèle GroupUser qui est lié à la table group_user dans la base de données
+ * 
+ * @author Clara Vesval B2B Info <clara.vesval@ynov.com>
+ * 
+ */
+
 class GroupUser extends Pivot
 {
     use HasFactory;
@@ -36,4 +43,18 @@ class GroupUser extends Pivot
     {
         return $this->belongsTo(Group::class);
     }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public $fillable=['user_id',"group_id"];
+    
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'group_user';
 }

@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * Le modèle User qui est lié à la table users dans la base de données
+ * 
+ * @author Clara Vesval B2B Info <clara.vesval@ynov.com>
+ * 
+ */
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -61,6 +68,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Photo');
     }
 
+ /**
+     * Renvoie tous les groupes qui sont asssociés a l'utilisateur
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */   
     public function groups()
     {
         return $this->belongsToMany('App\Models\Group')
@@ -69,6 +80,10 @@ class User extends Authenticatable
                     ->withTimestamps();
     }
 
+    /**
+     * Renvoie tous les photos où apparait l'utilisateur
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */   
     public function photosAppearance()
     {
         return $this->belongsToMany('App\Models\Photo')

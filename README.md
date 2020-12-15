@@ -6,70 +6,20 @@ Pour chaque photo, on peut "tagger" les membres du groupe qui y apparaissent. Ch
 
 ## Étape de réalisation 
 
-L'objectif est de concevoir les fichiers de migrations, les factories nécessaires aux tests, les modèles Eloquent et les relations entre les modèles. 
+### Migrations
+Je n'ai pas eu de problèmes particuliers dans cette étape, mise à part a group_user car je n'avais pas fait un modèle pivot, après avoir modifié cela, j'ai réussi à passer tous les tests A.
+Pour les tests B, j'ai juste eu un soucis avec la duplication des clés, j'avais bien mis le unique dans les tables mais cela ne le prennait pas en compte. J'ai donc continué sur les relations modèles et cela en a validé certaines sauf une. Après en avoir discuter avec le professeur, il a remarqué une erreur dans les tests avec le $this->seed(); 
+Je l'ai commenté et cela à marcher.
 
-Ce projet pourra être étendu par la suite. 
+### Relations Models
+Pour les relations simples j'ai eu quelques difficultés avec la relation reflexive, en effet nous ne l'avions pas vu, alors j'ai cherché sur internet et dans la doc et j'ai finalement réussi à trouver ce qu'il fallait écrire. De plus j'ai bien lu les tests pour savoir comment je devais appeller la fonction et voir les relations qu'il fallait utiliser cela m'a beaucoup aidé même si je gardais à côté de moi le projet todo pour m'aider.
+Pour les relations plus complexes j'ai eu le soucis avec le seeders, j'avais bien fait les bonnes relations mais les tests ne passaient pas, laors j'ai fait un 'php artisan migrate:fresh --seed' et là tous mes tests sont passés.
 
-### Récupération du projet et préparation de votre dépôt pour le rendu 
-
-1. Cloner le dépôt 
-2. Rentrez dans le dépot : `cd instabook`
-3. "Dégiter" le dépôt : `rm -rf .git`
-4. Initialiser git : `git init`
-5. Créez votre dépôt de rendu sur git, sans README, ni aucune autre case cochée
-6. Suivez les instructions indiquées sur git (`git add .`, `git commit -m"initial commit`, `git remote add origin url_de_votre_depot`)
-7. Vous pouvez (mais n'êtes pas obligé) rajouter comme second dépôt distant le dépôt actuel : `git remote add prof )
-8. Faites votre premier push : `git push -u  origin master`. 
-
-### Création d'une base de données, 
-
-Vous aurez à créer une base de données dans MySQL : 
-`sudo mysql`
-Une fois dans mysql 
-
-```sql 
-CREATE DATABASE instabook;
- -- CREATE USER  laravel@localhost IDENTIFIED BY 'L4R4V3l' ; --  À faire si vous n'avez pas déjà un utilisateur autre que root
- -- On donne les droit à l'utilisateur
- GRANT ALL ON instabook.* TO laravel@localhost; 
-```
-
-Copier le fichier `.env.example` en `.env` : 
-```sh 
-cp .env.example .env
-```
-Et remplissez les informations propres à la BDD. 
-
-
-Installer le projet à l'aide de composer : 
-```sh
-composer install
-```
-
-Créer une clé pour le .env
-```sh
-php artisan key:generate
-```
-
-À vous de jouer !!!
-
-
-### Les jeux de tests
-Afin de faciliter le développement, les jeux de tests sont numérotés pour être passé par étapes. Un `seeder` a été fourni pour remplir la base de donnée avec un jeu de donnée valide. pour que celui ci s'execute bien, vous aurez besoin des factories (fournies), ainsi que des modèles. 
-Vous aurez aussi besoin d'avoir créé les modèles et vérifié que chacun à bien le trait hasFactory (`use hasFactory;`).
-Le modèle Photo est fourni avec une relation nécessaire pour le remplissage de la base. 
-
-
-Ainsi la première étape concernent simplement la structure de la base données, sans prendre en compte les contraintes de clés étrangères, ni d'unicité. Il y a besoin des fichiers de migration, ainsi que des factory qui sont fournies pour cette étape. 
-
-Si vous rencontrez des problèmes dès cette étape, essayer de réinitialiser la base de données et les jeux de test avec la commande suivante : 
-```sh
-php artisan migrate:fresh --seed
-```
-
-Ensuite, il est nécessaire de coder les relations dans les modèles, pour pouvoir tester les contraintes d'unicité et de clés étrangères, dans leur forme simplifiées, c’est-à-dire sans relations complexes. 
-
-Enfin, il faudra intégrer certaines règles de gestions, telles que l'appartenance à groupe d'une photo pour être mentionné comme apparaissant sur la photo. 
-  - Un commentaire ne peut être que fait que par un utilisateur qui appartient au même groupe que la photo
-  - La photo n'est créée que si son propriétaire appartient bien au même groupe que la photo
-  - Un utilisateur ne peut être ajouté à une photo que si il est dans le même groupe que la photo
+### Règles de gestion
+Le point le plus compliqué pour moi a été celui des règles de gestions.
+C'est la partie que j'avais le moins compris sur le projet todo.
+J'ai bien compris la fonction boot mais j'étais perdu pour savoir ce qu'il fallait mettre dedans.
+J'ai fait plusieurs tests pour que l commentaire ne peut être fait que par un utilisateur qui appartient au même groupe que la photo.
+J'ai essayé de récupèrer l'id du groupe de la photo pour le comparé à l'id du groupe de l'utilisateur mais ce n'était pas la bnne méthode.
+J'ai regardé à nouveau ce qu'on a fait sur le todo pour m'inspirer, j'avais bien le début mais il fallait utiliser le find mais je ne savais pas comment.
+J'ai finalement réussi avec votre aide et cela m'a permis de comprendre et de réussir les autres.
